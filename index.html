@@ -128,13 +128,15 @@
 
     <div class="video-box">
 
-      <!-- 🎬 Pixeldrain Video -->
-      <video id="video">
+      <!-- 🎬 Video -->
+      <video id="video" controls playsinline>
+        
         <source src="https://pixeldrain.com/api/file/AzJ84FU4" type="video/mp4">
 
-        <!-- زیرنویس‌ها هنوز از GitHub -->
+        <!-- Subtitles -->
         <track kind="subtitles" src="fa.vtt" srclang="fa" label="فارسی" default>
         <track kind="subtitles" src="en.vtt" srclang="en" label="English">
+
       </video>
 
       <div class="play-btn" id="playBtn" onclick="playVideo()">▶</div>
