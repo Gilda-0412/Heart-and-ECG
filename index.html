@@ -111,6 +111,22 @@
       h2 { font-size: 20px; }
       .play-btn { width: 60px; height: 60px; font-size: 32px; }
     }
+
+    /* ✅ VPN Warning */
+    #vpnWarning {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #ff0040;
+      color: white;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      box-shadow: 0 0 20px rgba(255,0,64,0.4);
+      z-index: 9999;
+    }
   </style>
 </head>
 
@@ -130,13 +146,11 @@
 
       <!-- 🎬 Video -->
       <video id="video" controls playsinline>
-        
         <source src="https://ia902903.us.archive.org/13/items/video.mp4_202606/video.mp4.mp4" type="video/mp4">
 
         <!-- Subtitles -->
         <track kind="subtitles" src="fa.vtt" srclang="fa" label="فارسی" default>
         <track kind="subtitles" src="en.vtt" srclang="en" label="English">
-
       </video>
 
       <div class="play-btn" id="playBtn" onclick="playVideo()">▶</div>
@@ -149,9 +163,15 @@
 
   </div>
 
+  <!-- ✅ VPN Warning -->
+  <div id="vpnWarning">
+    ⚠️ اگر ویدئو لود نمی‌شود، لطفاً VPN خود را روشن کنید
+  </div>
+
   <script>
     const video = document.getElementById("video");
     const btn = document.getElementById("playBtn");
+    const warning = document.getElementById("vpnWarning");
 
     function playVideo() {
       video.play();
@@ -177,6 +197,22 @@
 
       isEN = !isEN;
     }
+
+    // ✅ VPN Warning Logic
+    video.addEventListener("error", () => {
+      warning.style.display = "block";
+    });
+
+    setTimeout(() => {
+      if (video.readyState < 2) {
+        warning.style.display = "block";
+      }
+    }, 6000);
+
+    video.addEventListener("playing", () => {
+      warning.style.display = "none";
+    });
+
   </script>
 
 </body>
