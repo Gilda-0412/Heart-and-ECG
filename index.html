@@ -112,7 +112,7 @@
       .play-btn { width: 60px; height: 60px; font-size: 32px; }
     }
 
-    /* ✅ VPN Warning */
+    /* VPN Warning */
     #vpnWarning {
       display: none;
       position: fixed;
@@ -126,6 +126,19 @@
       font-size: 14px;
       box-shadow: 0 0 20px rgba(255,0,64,0.4);
       z-index: 9999;
+    }
+
+    /* Quality selector */
+    #qualityBox {
+      margin-bottom: 10px;
+    }
+
+    #qualitySelect {
+      background: #111;
+      color: #00e5ff;
+      border: 1px solid #00e5ff;
+      border-radius: 6px;
+      padding: 4px 8px;
     }
   </style>
 </head>
@@ -143,6 +156,15 @@
     <h2 id="subtitle">🫀 ECG & Heart</h2>
 
     <div class="video-box">
+
+      <!-- ✅ Quality Selector -->
+      <div id="qualityBox">
+        <label style="color:#00e5ff;font-size:14px;">Quality: </label>
+        <select id="qualitySelect">
+          <option value="720">720p</option>
+          <option value="360">360p</option>
+        </select>
+      </div>
 
       <!-- 🎬 Video -->
       <video id="video" controls playsinline>
@@ -163,15 +185,16 @@
 
   </div>
 
-  <!-- ✅ VPN Warning -->
+  <!-- VPN Warning -->
   <div id="vpnWarning">
-    ⚠️ در صورت باز نشدن ویدئو لطفاً فیلترشکن خود را روشن کنید
+    ⚠️در صورت باز نشدن ویدئو لطفاً فیلترشکن خود را روشن کنید
   </div>
 
   <script>
     const video = document.getElementById("video");
     const btn = document.getElementById("playBtn");
     const warning = document.getElementById("vpnWarning");
+    const qualitySelect = document.getElementById("qualitySelect");
 
     function playVideo() {
       video.play();
@@ -198,7 +221,7 @@
       isEN = !isEN;
     }
 
-    // ✅ VPN Warning Logic
+    // VPN warning
     video.addEventListener("error", () => {
       warning.style.display = "block";
     });
@@ -211,6 +234,25 @@
 
     video.addEventListener("playing", () => {
       warning.style.display = "none";
+    });
+
+    // ✅ Quality switch
+    const sources = {
+      "480": "https://ia902903.us.archive.org/23/items/hearts-new-friend-480/Heart%27s%20New%20Friend%20480.mp4",
+      "1080": "https://ia902903.us.archive.org/13/items/video.mp4_202606/video.mp4.mp4"
+    };
+
+    qualitySelect.addEventListener("change", function () {
+      const currentTime = video.currentTime;
+      const isPlaying = !video.paused;
+
+      video.src = sources[this.value];
+      video.load();
+      video.currentTime = currentTime;
+
+      if (isPlaying) {
+        video.play();
+      }
     });
 
   </script>
